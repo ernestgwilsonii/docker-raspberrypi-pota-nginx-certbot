@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(radiofam.club w3guy.radiofam.club)
+domains=(radiofan.club w3guy.radiofan.club)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="ernestgwilsonii@gmail.com" # Adding a valid address is strongly recommended
@@ -67,12 +67,13 @@ esac
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
 docker-compose run --rm --entrypoint "\
-  certbot certonly --webroot -w /var/www/certbot \
+  certbot \
     $staging_arg \
     $email_arg \
     $domain_args \
     --rsa-key-size $rsa_key_size \
     --agree-tos \
+    --manual --preferred-challenges dns certonly \
     --force-renewal" certbot
 echo
 
